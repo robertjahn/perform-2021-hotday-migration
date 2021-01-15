@@ -142,18 +142,20 @@ start_docker() {
     PUBLIC_IP=$(curl -s http://checkip.amazonaws.com/)
     
     echo "Starting docker-compose"
-    docker-compose -f scripts/docker-compose.yaml up -d
+    sudo docker-compose -f scripts/docker-compose.yaml up -d
 
     echo "Waiting 30 seconds for app to come up"
     sleep 30
 
     echo "Starting browser traffic on: $PUBLIC_IP"
-    . scripts/run-browser-traffic.sh $PUBLIC_IP 10000
+    sudo scripts/run-browser-traffic.sh $PUBLIC_IP 10000
 
     echo "Starting load traffic"
-    . scripts/run-load-traffic.sh 172.17.0.1 80 100000
+    sudo scripts/run-load-traffic.sh 172.17.0.1 80 100000
 
+    echo "Waiting 10 seconds"
     sleep 10
+    
     echo "docker ps"
     docker ps
 

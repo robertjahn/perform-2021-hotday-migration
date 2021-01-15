@@ -22,11 +22,12 @@ copy_k8() {
     echo "----------------------------------------------------"
     echo "Start copy_k8()"
     echo "----------------------------------------------------"
+    rm -rf scripts/
     mkdir -p scripts
 
     echo "copy k8 files"
     git clone https://github.com/dt-orders/overview.git
-    cp -r overview/k8/ scripts/ 
+    cp -r overview/k8/* scripts/
     rm -rf overview/
     echo "----------------------------------------------------"
     echo "End copy_k8()"
@@ -39,7 +40,8 @@ start_k8() {
     echo "----------------------------------------------------"
     
     echo "Starting app"
-    . scripts/start-app.sh
+    cd scripts
+    ./start-app.sh
 
     echo "Waiting 30 seconds for app to come up"
     sleep 30
@@ -51,10 +53,12 @@ start_k8() {
     kubectl -n dt-orders get svc
 
     echo "Starting load traffic"
-    . scripts/start-load.sh
+    ./start-load.sh
 
     echo "Starting browser traffic"
-    . scripts/start-browser.sh
+    ./start-browser.sh
+
+    cd ..
 
     sleep 10
     echo "kubectl -n dt-orders get pods"
@@ -94,7 +98,7 @@ setup_dynatrace() {
     export DT_API_TOKEN=$DYNATRACE_TOKEN
     echo "  DT_BASEURL   : $DT_BASEURL"
     echo "  DT_API_TOKEN : $DT_API_TOKEN"
-
+    echo ""
     echo "Calling createDynatraceConfig.sh"
     cd dynatrace
     ./createDynatraceConfig.sh
@@ -109,11 +113,12 @@ copy_docker() {
     echo "----------------------------------------------------"
     echo "Start copy_docker()"
     echo "----------------------------------------------------"
+    rm -rf scripts/
     mkdir -p scripts
 
     echo "copy docker compose files"
     git clone https://github.com/dt-orders/overview.git
-    cp overview/docker-compose/docker-compose-monolith.yaml scripts/docker-compose-monolith.yaml
+    cp overview/docker-compose/docker-compose-monolith.yaml scripts/docker-compose.yaml
     rm -rf overview/
 
     echo "copy browser files"
@@ -137,20 +142,20 @@ start_docker() {
     PUBLIC_IP=$(curl -s http://checkip.amazonaws.com/)
     
     echo "Starting docker-compose"
-    sudo docker-compose -f scripts/docker-compose-monolith.yaml up -d
+    docker-compose -f scripts/docker-compose.yaml up -d
 
     echo "Waiting 30 seconds for app to come up"
     sleep 30
 
     echo "Starting browser traffic on: $PUBLIC_IP"
-    sudo . scripts/run-browser-traffic.sh $PUBLIC_IP 10000
+    . scripts/run-browser-traffic.sh $PUBLIC_IP 10000
 
     echo "Starting load traffic"
-    sudo . scripts/run-load-traffic.sh 172.17.0.1 80 100000
+    . scripts/run-load-traffic.sh 172.17.0.1 80 100000
 
     sleep 10
     echo "docker ps"
-    sudo docker ps
+    docker ps
 
     echo "----------------------------------------------------"
     echo "End start_docker()"
@@ -171,13 +176,13 @@ case "$LAB_NAME" in
         echo "===================================================="
         echo "Setting up: bastion" 
         echo "===================================================="
-        #get_monaco
+        get_monaco
         setup_dynatrace
         copy_k8
-        #start_k8 
+        start_k8 
         ;;
     *) 
-        echo "Missing or invalid LAB_NAME environment variable"
+        echo "Invalid LAB_NAME environment variable"
         echo "Must be 'monolith' or 'bastion'" 
         exit 1
         ;;

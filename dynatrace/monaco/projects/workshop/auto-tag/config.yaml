@@ -1,0 +1,9 @@
+config:
+  - auto-tag-service: "auto-tag-service.json"
+  - auto-tag-app: "auto-tag-app.json"
+
+auto-tag-service:
+  - name: "service"
+
+auto-tag-app:
+  - name: "app"

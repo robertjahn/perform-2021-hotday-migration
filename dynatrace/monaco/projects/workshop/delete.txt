@@ -1,3 +1,7 @@
 delete:
-  - "management-zone/mz-monolith"  
-  - "management-zone/mz-eks"
+  - "management-zone/management-zone-monolith"  
+  - "management-zone/management-zone-eks"
+  - "conditional-naming-service/conditional-naming-service-docker"
+  - "conditional-naming-service/conditional-naming-service-kubernetes"
+  - "auto-tag/auto-tag-app"
+  - "auto-tag/auto-tag-service"

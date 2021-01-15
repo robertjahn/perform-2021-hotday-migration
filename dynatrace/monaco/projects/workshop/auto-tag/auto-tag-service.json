@@ -1,0 +1,25 @@
+{
+  "name": "{{ .name }}",
+  "rules": [
+    {
+      "type": "SERVICE",
+      "enabled": true,
+      "valueFormat": "{Service:DetectedName}",
+      "propagationTypes": [],
+      "conditions": [
+        {
+          "key": {
+            "attribute": "SERVICE_DETECTED_NAME"
+          },
+          "comparisonInfo": {
+            "type": "STRING",
+            "operator": "EXISTS",
+            "value": null,
+            "negate": false,
+            "caseSensitive": null
+          }
+        }
+      ]
+    }
+  ]
+}

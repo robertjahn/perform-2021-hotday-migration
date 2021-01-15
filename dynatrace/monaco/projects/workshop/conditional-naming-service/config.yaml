@@ -1,0 +1,9 @@
+config:
+  - conditional-naming-service-kubernetes: "conditional-naming-service-kubernetes.json"
+  - conditional-naming-service-docker: "conditional-naming-service-docker.json"
+
+conditional-naming-service-kubernetes:
+  - name: "kubernetes"
+
+conditional-naming-service-docker:
+  - name: "docker"

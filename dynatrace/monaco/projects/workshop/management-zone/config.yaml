@@ -1,9 +1,9 @@
 config:
-  - mz-monolith: "mz-monolith.json"
-  - mz-eks: "mz-eks.json"
+  - management-zone-monolith: "management-zone-monolith.json"
+  - management-zone-eks: "management-zone-eks.json"
 
-mz-monolith:
+management-zone-monolith:
   - name: "monolith"
 
-mz-eks:
+management-zone-eks:
   - name: "eks"

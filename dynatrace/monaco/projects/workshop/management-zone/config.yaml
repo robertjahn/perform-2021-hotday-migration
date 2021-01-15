@@ -1,0 +1,9 @@
+config:
+  - mz-monolith: "mz-monolith.json"
+  - mz-eks: "mz-eks.json"
+
+mz-monolith:
+  - name: "monolith"
+
+mz-eks:
+  - name: "eks"

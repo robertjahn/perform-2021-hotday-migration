@@ -1,0 +1,3 @@
+delete:
+  - "management-zone/mz-monolith"  
+  - "management-zone/mz-eks"

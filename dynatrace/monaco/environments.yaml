@@ -1,0 +1,4 @@
+workshop:
+    - name: "workshop"
+    - env-url: "https://{{ .Env.DYNATRACE_ENVIRONMENT_ID }}.sprint.dynatracelabs.com"
+    - env-token-name: "DYNATRACE_TOKEN"

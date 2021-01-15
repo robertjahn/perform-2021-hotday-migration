@@ -1,0 +1,5 @@
+config:
+  - conditional-naming-host-kubernetes-nodes: "conditional-naming-host-kubernetes-nodes.json"
+
+conditional-naming-host-kubernetes-nodes:
+  - name: "kubernetes-nodes"

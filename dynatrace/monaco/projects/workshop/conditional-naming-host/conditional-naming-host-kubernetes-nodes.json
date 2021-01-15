@@ -1,0 +1,20 @@
+{
+  "type": "HOST",
+  "nameFormat": "eks-{KubernetesCluster:Name}-{Host:Kubernetes:kubernetes.io//hostname}",
+  "displayName": "{{ .name }}",
+  "enabled": true,
+  "rules": [
+    {
+      "key": {
+        "attribute": "KUBERNETES_CLUSTER_NAME"
+      },
+      "comparisonInfo": {
+        "type": "STRING",
+        "operator": "EXISTS",
+        "value": null,
+        "negate": false,
+        "caseSensitive": null
+      }
+    }
+  ]
+}

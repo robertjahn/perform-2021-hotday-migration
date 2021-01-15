@@ -123,12 +123,14 @@ copy_docker() {
 
     echo "copy browser files"
     git clone https://github.com/dt-orders/browser-traffic.git
-    cp browser-traffic/run.sh scripts/run-browser-traffic.sh
+    cp browser-traffic/start-browser.sh scripts/start-browser.sh
+    cp browser-traffic/stop-browser.sh scripts/stop-browser.sh
     rm -rf browser-traffic/
 
     echo "copy load files"
     git clone https://github.com/dt-orders/load-traffic.git
-    cp load-traffic/run.sh scripts/run-load-traffic.sh
+    cp load-traffic/start-load.sh scripts/start-load.sh
+    cp load-traffic/stop-load.sh scripts/stop-load.sh
     rm -rf load-traffic/
     echo "----------------------------------------------------"
     echo "End copy_docker()"
@@ -148,16 +150,18 @@ start_docker() {
     sleep 30
 
     echo "Starting browser traffic on: $PUBLIC_IP"
-    sudo scripts/run-browser-traffic.sh $PUBLIC_IP 10000
+    sudo scripts/stop-browser.sh
+    sudo scripts/start-browser.sh $PUBLIC_IP 10000
 
     echo "Starting load traffic"
-    sudo scripts/run-load-traffic.sh 172.17.0.1 80 100000
+    sudo scripts/stop-load.sh
+    sudo scripts/start-load.sh 172.17.0.1 80 100000
 
     echo "Waiting 10 seconds"
     sleep 10
     
     echo "docker ps"
-    docker ps
+    sudo docker ps
 
     echo "----------------------------------------------------"
     echo "End start_docker()"

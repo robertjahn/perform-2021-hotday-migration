@@ -15,7 +15,7 @@ echo ""
 monaco --environments ./monaco/environments.yaml --project workshop ./monaco/projects
 
 # custom API calls
-#setFrequentIssueDetectionOff
+setFrequentIssueDetectionOff
 #setServiceAnomalyDetection ./custom/service-anomalydetection.json
 
 echo ""

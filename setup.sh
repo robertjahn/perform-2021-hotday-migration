@@ -151,7 +151,7 @@ start_docker() {
 
     echo "Starting browser traffic on: $PUBLIC_IP"
     sudo scripts/stop-browser.sh
-    sudo scripts/start-browser.sh $PUBLIC_IP 10000
+    sudo scripts/start-browser.sh "http://$PUBLIC_IP" 10000
 
     echo "Starting load traffic"
     sudo scripts/stop-load.sh

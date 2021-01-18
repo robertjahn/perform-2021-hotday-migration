@@ -1,6 +1,6 @@
 {
   "type": "HOST",
-  "nameFormat": "eks-{KubernetesCluster:Name}-{Host:Kubernetes:kubernetes.io//hostname}",
+  "nameFormat": "k8-{KubernetesCluster:Name}-{KubernetesNode:DetectedName}",
   "displayName": "{{ .name }}",
   "enabled": true,
   "rules": [

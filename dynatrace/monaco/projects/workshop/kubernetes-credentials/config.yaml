@@ -2,4 +2,4 @@ config:
   - kubernetes-credentials-eks: "kubernetes-credentials-eks.json"
 
 kubernetes-credentials-eks:
-  - label: "eks"
+  - name: "eks"

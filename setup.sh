@@ -168,10 +168,10 @@ start_docker() {
     echo "----------------------------------------------------"
 }
 
-add_kubernetes_dashboard() {
+get_kubernetes_credentials() {
     # https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/monitoring/monitor-kubernetes-clusters-with-dynatrace/
     echo "----------------------------------------------------"
-    echo "Start add_kubernetes_dashboard()"
+    echo "Start get_kubernetes_credentials()"
     echo "----------------------------------------------------"
     echo "Creating a service account and cluster role"
     kubectl apply -f https://www.dynatrace.com/support/help/codefiles/kubernetes/kubernetes-monitoring-service-account.yaml
@@ -181,7 +181,7 @@ add_kubernetes_dashboard() {
     echo "KUBE_API_URL=$KUBE_API_URL"
     echo "KUBE_TOKEN=$KUBE_AUTH_TOKEN"
     echo "----------------------------------------------------"
-    echo "End add_kubernetes_dashboard()"
+    echo "End get_kubernetes_credentials()"
     echo "----------------------------------------------------"
 }
 
@@ -200,6 +200,7 @@ case "$LAB_NAME" in
         echo "Setting up: bastion" 
         echo "===================================================="
         get_monaco
+        get_kubernetes_credentials
         setup_dynatrace
         copy_k8
         start_k8 

@@ -168,6 +168,23 @@ start_docker() {
     echo "----------------------------------------------------"
 }
 
+add_kubernetes_dashboard() {
+    # https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/monitoring/monitor-kubernetes-clusters-with-dynatrace/
+    echo "----------------------------------------------------"
+    echo "Start add_kubernetes_dashboard()"
+    echo "----------------------------------------------------"
+    echo "Creating a service account and cluster role"
+    kubectl apply -f https://www.dynatrace.com/support/help/codefiles/kubernetes/kubernetes-monitoring-service-account.yaml
+    echo "Creating environment variables monaco JSON for kubernetes-credentials expects"
+    export KUBE_API_URL=$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')
+    export KUBE_AUTH_TOKEN=$(kubectl get secret $(kubectl get sa dynatrace-monitoring -o jsonpath='{.secrets[0].name}' -n dynatrace) -o jsonpath='{.data.token}' -n dynatrace | base64 --decode)
+    echo "KUBE_API_URL=$KUBE_API_URL"
+    echo "KUBE_TOKEN=$KUBE_AUTH_TOKEN"
+    echo "----------------------------------------------------"
+    echo "End add_kubernetes_dashboard()"
+    echo "----------------------------------------------------"
+}
+
 case "$LAB_NAME" in
     "monolith") 
         clear

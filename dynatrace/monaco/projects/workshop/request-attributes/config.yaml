@@ -1,0 +1,13 @@
+config:
+  - request-attributes-lsn: "request-attributes-lsn.json"
+  - request-attributes-tsn: "request-attributes-tsn.json"
+  - request-attributes-ltn: "request-attributes-lsn.json"
+
+request-attributes-lsn:
+  - name: "lsn"
+
+request-attributes-tsn:
+- name: "tsn"
+
+request-attributes-ltn:
+- name: "ltn"

@@ -4,10 +4,10 @@ config:
   - request-attributes-ltn: "request-attributes-lsn.json"
 
 request-attributes-lsn:
-  - name: "lsn"
+  - name: "LSN"
 
 request-attributes-tsn:
-- name: "tsn"
+- name: "TSN"
 
 request-attributes-ltn:
-- name: "ltn"
+- name: "LTN"

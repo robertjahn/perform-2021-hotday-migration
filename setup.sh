@@ -144,24 +144,26 @@ start_docker() {
     PUBLIC_IP=$(curl -s http://checkip.amazonaws.com/)
     
     echo "Starting docker-compose"
-    sudo docker-compose -f scripts/docker-compose.yaml up -d
+    docker-compose -f scripts/docker-compose.yaml up -d
 
     echo "Waiting 30 seconds for app to come up"
     sleep 30
 
     echo "Starting browser traffic on: $PUBLIC_IP"
-    sudo scripts/stop-browser.sh
-    sudo scripts/start-browser.sh "http://$PUBLIC_IP" 10000
+    cd scripts
+    ./stop-browser.sh
+    ./start-browser.sh "http://$PUBLIC_IP" 10000
 
     echo "Starting load traffic"
-    sudo scripts/stop-load.sh
-    sudo scripts/start-load.sh 172.17.0.1 80 100000
+    ./stop-load.sh
+    ./start-load.sh 172.17.0.1 80 100000
+    cd ..
 
     echo "Waiting 10 seconds"
     sleep 10
     
     echo "docker ps"
-    sudo docker ps
+    docker ps
 
     echo "----------------------------------------------------"
     echo "End start_docker()"
@@ -199,7 +201,7 @@ case "$LAB_NAME" in
         echo "===================================================="
         echo "Setting up: bastion" 
         echo "===================================================="
-        get_monaco
+        #get_monaco
         get_kubernetes_credentials
         setup_dynatrace
         copy_k8

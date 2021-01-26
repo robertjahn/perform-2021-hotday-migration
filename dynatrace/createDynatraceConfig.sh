@@ -10,9 +10,14 @@ echo "--------------------------------------------------------------------------
 echo ""
 
 # run monaco configuration
-# add the -dry-run argument to test
-#monaco -dry-run --environments ./monaco/environments.yaml --project workshop ./monaco/projects
-monaco --environments ./monaco/environments.yaml --project workshop ./monaco/projects
+if ! [ -x "$(command -v monaco)" ]; then
+    # add the -dry-run argument to test
+    #monaco -dry-run --environments ./monaco/environments.yaml --project workshop ./monaco/projects
+    echo "Running monaco version: $(monaco --version)"
+    monaco --environments ./monaco/environments.yaml --project workshop ./monaco/projects
+else
+    echo "ERROR: missing monaco"
+fi
 
 # custom API calls
 setFrequentIssueDetectionOff

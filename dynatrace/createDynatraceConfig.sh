@@ -10,7 +10,7 @@ echo "--------------------------------------------------------------------------
 echo ""
 
 # run monaco configuration
-if ! [ -x "$(command -v monaco)" ]; then
+if [ -x "$(command -v monaco)" ]; then
     # add the -dry-run argument to test
     #monaco -dry-run --environments ./monaco/environments.yaml --project workshop ./monaco/projects
     echo "Running monaco version: $(monaco --version)"

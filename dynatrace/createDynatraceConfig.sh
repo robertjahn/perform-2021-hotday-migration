@@ -9,11 +9,6 @@ echo "Setting up Dynatrace config"
 echo "-----------------------------------------------------------------------------------"
 echo ""
 
-# custom API calls
-addConfig v2 slo "K8-Error-Rate-SLO" ./custom/k8-slo.json
-addConfig v2 slo "Monolith-Error-Rate-SLO" ./custom/monolith-slo.json
-setFrequentIssueDetectionOff
-
 # run monaco configuration
 if [ -x "$(command -v monaco)" ]; then
     # add the -dry-run argument to test
@@ -23,6 +18,11 @@ if [ -x "$(command -v monaco)" ]; then
 else
     echo "ERROR: missing monaco"
 fi
+
+# custom API calls - NOTE the SLO is dependent on the Management Zone that monaco makes
+addConfig v2 slo "K8-Error-Rate-SLO" ./custom/k8-slo.json
+addConfig v2 slo "Monolith-Error-Rate-SLO" ./custom/monolith-slo.json
+setFrequentIssueDetectionOff
 
 echo ""
 echo "-----------------------------------------------------------------------------------"

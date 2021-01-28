@@ -152,11 +152,11 @@ start_docker() {
     echo "Starting browser traffic on: $PUBLIC_IP"
     cd scripts
     ./stop-browser.sh
-    ./start-browser.sh "http://$PUBLIC_IP" 10000
+    ./start-browser.sh "http://$PUBLIC_IP" 1000000
 
     echo "Starting load traffic"
     ./stop-load.sh
-    ./start-load.sh 172.17.0.1 80 100000
+    ./start-load.sh 172.17.0.1 80 10000000
     cd ..
 
     echo "Waiting 10 seconds"

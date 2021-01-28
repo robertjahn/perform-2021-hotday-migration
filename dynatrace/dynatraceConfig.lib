@@ -15,9 +15,10 @@ fi
 # generic add function
 addConfig() {
 
-  CONFIG_API_NAME=${1}
-  CONFIG_NAME=${2}
-  CONFIG_FILE=${3}
+  CONFIG_VERSION=${1}   # pass in v2 -or- config/v1
+  CONFIG_API_NAME=${2}
+  CONFIG_NAME=${3}
+  CONFIG_FILE=${4}
 
   if ! [ -f "$CONFIG_FILE" ]; then
     echo "==================================================================================="
@@ -27,20 +28,29 @@ addConfig() {
   fi
 
   echo "==================================================================================="
+  echo "Calling: $DT_BASEURL/api/$CONFIG_VERSION/$CONFIG_API_NAME"
   echo "Checking if $CONFIG_API_NAME $CONFIG_NAME exists"
 
-  DT_ID=$(curl -s -X GET \
-    "$DT_BASEURL/api/config/v1/$CONFIG_API_NAME?Api-Token=$DT_API_TOKEN" \
+  if [ "$CONFIG_API_NAME" == "slo" ]
+  then
+    DT_ID=$(curl -s -X GET \
+    "$DT_BASEURL/api/$CONFIG_VERSION/$CONFIG_API_NAME?Api-Token=$DT_API_TOKEN" \
+    -H 'Content-Type: application/json' \
+    -H 'cache-control: no-cache' \
+    | jq -r '.slo[] | select(.name == "'${CONFIG_NAME}'") | .id')
+  else
+    DT_ID=$(curl -s -X GET \
+    "$DT_BASEURL/api/$CONFIG_VERSION/$CONFIG_API_NAME?Api-Token=$DT_API_TOKEN" \
     -H 'Content-Type: application/json' \
     -H 'cache-control: no-cache' \
     | jq -r '.values[] | select(.name == "'${CONFIG_NAME}'") | .id')
-
+  fi    
   # if exists, then delete it
   if [ "$DT_ID" != "" ]
   then
     echo "Deleting $CONFIG_API_NAME $CONFIG_NAME (ID = $DT_ID)"
     curl -X DELETE \
-    "$DT_BASEURL/api/config/v1/$CONFIG_API_NAME/$DT_ID?Api-Token=$DT_API_TOKEN" \
+    "$DT_BASEURL/api/$CONFIG_VERSION/$CONFIG_API_NAME/$DT_ID?Api-Token=$DT_API_TOKEN" \
     -H 'Content-Type: application/json' \
     -H 'cache-control: no-cache'
     
@@ -51,14 +61,23 @@ addConfig() {
   fi
 
   echo "Adding $CONFIG_API_NAME $CONFIG_NAME"
-  DT_ID=$(curl -s -X POST \
-    "$DT_BASEURL/api/config/v1/$CONFIG_API_NAME?Api-Token=$DT_API_TOKEN" \
+  if [ "$CONFIG_API_NAME" == "slo" ]
+  then
+    curl -X POST \
+    "$DT_BASEURL/api/$CONFIG_VERSION/$CONFIG_API_NAME?Api-Token=$DT_API_TOKEN" \
     -H 'Content-Type: application/json' \
     -H 'cache-control: no-cache' \
-    -d @$CONFIG_FILE \
-    | jq -r '.id')
-  echo "Created $CONFIG_NAME (ID=$DT_ID)"
-
+    -d @$CONFIG_FILE
+  else
+    DT_ID=$(
+      curl -X POST \
+      "$DT_BASEURL/api/$CONFIG_VERSION/$CONFIG_API_NAME?Api-Token=$DT_API_TOKEN" \
+      -H 'Content-Type: application/json' \
+      -H 'cache-control: no-cache' \
+      -d @$CONFIG_FILE \
+      | jq -r '.id')
+    echo "Created $CONFIG_NAME (ID=$DT_ID)"
+  fi
 }
 
 deleteConfig() {

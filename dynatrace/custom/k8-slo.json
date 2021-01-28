@@ -1,0 +1,14 @@
+{
+  "enabled": true,
+  "name": "K8-Error-Rate-SLO",
+  "description": "Service Errors Server SuccessCount / Service RequestCount Server",
+  "useRateMetric": false,
+  "metricRate": "",
+  "metricNumerator": "builtin:service.errors.server.successCount",
+  "metricDenominator": "builtin:service.requestCount.server",
+  "target": 95,
+  "warning": 97,
+  "evaluationType": "AGGREGATE",
+  "timeframe": "-1d",
+  "filter": "mzName(\"eks\"),type(\"SERVICE\")"
+}

@@ -1,0 +1,20 @@
+{
+  "enabled": true,
+  "name": "Monolith-Error-Rate-SLO",
+  "description": "Service Errors Server SuccessCount / Service RequestCount Server",
+  "evaluatedPercentage": 99.97887657394826,
+  "errorBudget": 4.978876573948256,
+  "status": "SUCCESS",
+  "error": "NONE",
+  "useRateMetric": false,
+  "metricRate": "",
+  "metricNumerator": "builtin:service.errors.server.successCount",
+  "numeratorValue": 4643152,
+  "metricDenominator": "builtin:service.requestCount.server",
+  "denominatorValue": 4644133,
+  "target": 95,
+  "warning": 97,
+  "evaluationType": "AGGREGATE",
+  "timeframe": "-1d",
+  "filter": "mzName(\"monolith\"),type(\"SERVICE\")"
+}
